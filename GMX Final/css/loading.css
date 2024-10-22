@@ -1,0 +1,24 @@
+.loading_container, .reloading_container{
+	z-index: 9999;
+	width: 100%;
+	position: fixed; 
+	top: 0; 
+	left: 0; 
+	height: 100%; 
+	background: rgba(0,0,0,0.1);
+}
+
+.loading_message_container {
+	width: 75px;
+	margin: 100px auto;
+}
+
+.loading_message_container img {
+	padding: 10px;
+	border: 1px solid silver;
+	background-color: rgba(255,255,255,.8);
+	border-radius: 5px;
+}
+
+
+ 

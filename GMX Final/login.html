@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>GameWorx</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="css/gaugemeter.css" rel="stylesheet">
+	<link rel="shortcut icon" type="image/png" href="favicon.ico"/>
+    <style type="text/css">
+		html, .modal_bg {
+		  background: url(img/embedded.jpg) no-repeat center center fixed; 
+		  -webkit-background-size: cover;
+		  -moz-background-size: cover;
+		  -o-background-size: cover;
+		  background-size: cover;
+		}	
+		
+		.modal_bg, .rates_link, .saved_vouchers_link, .reserved_vouchers_link, .promo_label{
+			color: #fff !important;
+			text-shadow: 1px 1px #000;
+		}
+		body { 
+			background-color: transparent;
+		}
+		
+		.hidden_container{
+			display: none;
+		}
+		
+		.btn-group.special {
+		  display: flex;
+		}
+
+		.special .btn {
+		  flex: 1
+		}
+		.eloads_content_container{
+			height: 400px;
+			overflow-y: scroll;
+		}	
+		.shadow {
+			-moz-box-shadow: 0 0 20px rgba(0,0,0,0.5);
+			-webkit-box-shadow: 0 0 20px rgba(0,0,0,0.5);
+			box-shadow: 
+			
+			inset 0 0 50px #fff,      /* inner white */
+			inset 20px 0 80px #f0f,   /* inner left magenta short */
+			inset -20px 0 80px #0ff,  /* inner right cyan short */
+			inset 20px 0 300px #f0f,  /* inner left magenta broad */
+			inset -20px 0 300px #0ff, /* inner right cyan broad */
+			0 0 50px #fff,            /* outer white */
+			-10px 0 80px #f0f,        /* outer left magenta */
+			10px 0 80px #0ff;         /* outer right cyan */
+		} 
+		
+		.pulse {
+		  animation: pulse-animation 1s infinite;
+		}
+
+		@keyframes pulse-animation {
+		  0% {
+			box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+		  }
+		  100% {
+			box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
+		  }
+		}
+		
+		@-webkit-keyframes Pulse {
+			0% { -webkit-box-shadow: 0 0 14px rgba(0,0,0,0.2); }
+			50% { -webkit-box-shadow: 0 0 14px rgba(0,0,0,0.99); }
+			100% { -webkit-box-shadow: 0 0 14px rgba(0,0,0,0.2); }
+		}
+
+		@keyframes Pulse {
+			0% { box-shadow: 0 0 14px rgba(0,0,0,0.2); }
+			50% { box-shadow: 0 0 14px rgba(0,0,0,0.99); }
+			100% { box-shadow: 0 0 14px rgba(0,0,0,0.2); }
+		}
+
+		.pulsating_box { 
+			-webkit-animation: Pulse 3s infinite ease-in-out;
+			-o-animation: Pulse 3s infinite ease-in-out;
+			-ms-animation: Pulse 3s infinite ease-in-out; 
+			-moz-animation: Pulse 3s infinite ease-in-out; 
+			animation: Pulse 3s infinite ease-in-out;
+		}
+		
+		.alert-success {
+			color: #000 !important;
+			background-color: transparent !important;
+			border-color: transparent !important;
+		}
+		
+		.time_left_container h3{
+			font-weight: bold !important;
+		}
+		
+		#saved_vouchers_container table td, #reserved_vouchers_container table td {
+			font-size: 30px;
+			text-align: center;
+		}
+		
+		.table-borderless tr, .table-borderless td, .table-borderless th, .table-responsive {
+			border: 0;
+		}
+		
+		.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {			 
+			border-top: 0px !important;
+		} 
+		
+		.panel-default {
+			border-color: transparent;
+		}
+		
+		.panel {
+			border: 0px
+		} 
+		.promo-form-control {
+			background-color: #fcd554 !important;
+			color: #000;
+			border-radius: 50px;
+		}
+		.promo-entry_container{
+			padding: 2px 70px;
+		}
+		
+		.arrow-right {
+			width: 0; 
+			height: 0; 
+			border-top: 60px solid transparent;
+			border-bottom: 60px solid transparent;
+
+			border-left: 60px solid green;
+		}
+		
+		.promo_buttons{
+		    border-radius: 50px;
+			padding-left: 25px;
+		}
+		
+		.promo_entry_container{
+			margin-bottom: 5px;
+			padding: 2px 80px;
+		}
+		
+		.btn-radius{
+			border-radius: 25px;
+		}
+		
+		@media only screen and (max-width: 500px){ 
+			.promo_entry_container {
+				padding: 2px 10px;
+			}   
+		} 
+		
+		button.button.iwifi-buttons {
+			display: none;
+		}
+		
+		.icon{
+			display: none;
+		}
+		
+		.btn_promos{
+			margin: 10px auto;
+			display: block;
+			width: 50%;
+		}
+		
+		.blink {
+		  animation: blinker 2s linear infinite;
+		}
+
+		@keyframes blinker {
+		  50% {
+			opacity: 0;
+		  }
+		}
+    </style>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-select.min.js"></script>
+    <script src="js/iwifi-mtik.js?$(session-time-left)"></script>
+    <script src="js/GaugeMeter.js"></script>  
+</head>
+
+<body class='login'>
+
+	<!-- IWIFI SPECIFIC CODE - DO NOT TOUCH OR DELETE -->
+	<div class="hidden_container"><input id="user_mac_text" value="$(mac)"/></div>
+	<div class="hidden_container"><input id="user_ip_text" value="$(ip)"/></div>
+	<div class="hidden_container"><input id="identity_text" value="$(identity)"/></div>
+	<!-- IWIFI SPECIFIC CODE - DO NOT TOUCH OR DELETE --> 
+
+	<div class="container">  
+		<div id="loginbox" style="margin-top:30px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2"> 
+			<img id="portal_banner" src="img/banner-mtik.png" style="max-width: 100%; height: auto;" />  
+			<br />
+			<br />
+			<div class="panel panel-default shadow" style="background-color: rgba(255,255,255,0.6);">
+				<div class="panel-heading" style="background-color: rgba(255,255,255,0.4);"> 
+					<div class="panel-title text-center">Powered by <span style="font-style: italic;">Game<strong>Worx</strong></span></strong></div>
+				</div>     
+
+				<div class="panel-body" style="padding-bottom: 0;">   
+					$(if error)
+						<div class="alert alert-dismissible alert-danger text-center">
+							  <button type="button" class="close" data-dismiss="alert">&times;</button>
+							  <span id="error_info">$(error)</span>
+						</div>
+					$(endif) 
+					
+					<div class="alert alert-success text-center"><h3>0min</h3>Remaining Time</div>
+					
+					<div class="">   
+						<div style="padding: 10px 20px; max-width: 300px; margin: 0 auto;"> 
+							<button id="insert_coins_button" class="hidden_container" data-target="#insertcoincontainer" data-toggle="modal" data-backdrop="static" data-keyboard="false"></button>	  
+							<a id="insert_coin_button" class="btn-block btn btn-success btn-block btn-radius" href="#" onclick="check_coinslot_status(); return false">Insert Coins</a> 
+							<a id="reserve_voucher_button" class="btn btn-warning btn-block btn-radius" href="#" onclick="check_coinslot_status_reserve(); return false">Reserve Voucher</a>
+						</div> 
+				 
+						
+						<div id="voucher_container" class="hidden_container" style="padding: 10px 20px; max-width: 300px; margin: 0 auto;"> 
+							<form id="login_voucher_form" name="login" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="sendto_node();" $(endif)> <!-- return doLogin() -->
+								<input type="hidden" name="dst" value="$(link-orig)" />
+								<input type="hidden" name="popup" value="true" /> 
+								 
+								<div class="input-group"> 
+									<div class="input-group-btn">
+										<button class="btn btn-success" onclick="login_member('$(mac)');"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></button>
+									</div>
+  
+									<input id="login-username" type="text" autocomplete="off" class="form-control vouchercode" name="username" value="" placeholder="Input Voucher Code Here" />
+									
+									<span class="input-group-btn">
+										<input type="submit" class="btn-block btn btn-primary" value="Use Voucher" id="submit_voucher_button"/>				
+									</span>
+									
+								</div>  
+							</form>  
+						</div> 
+						
+						
+						
+						<!-- IWIFI SPECIFIC CODE - DO NOT TOUCH OR DELETE -->
+						<div id="promo_container" class="hidden_container"></div>  
+						<!-- IWIFI SPECIFIC CODE - DO NOT TOUCH OR DELETE -->
+						
+						
+						
+						<div style="padding: 10px 20px; max-width: 300px; margin: 0 auto;"> 
+							<a id="rates_link" class="btn btn-primary btn-block btn-radius" href="#ratescontainer" data-toggle="modal">View Rates</a> 
+							<a id="saved_vouchers_link" href="#savedvouchers" class="btn btn-warning btn-block btn-radius" href="#ratescontainer" data-toggle="modal" onclick="check_saved_vouchers(); return false">My Saved Vouchers</a> 
+							<a id="reserved_vouchers_link" href="#reservedvouchers" class="btn btn-danger btn-block btn-radius reserved_vouchers_link" href="#ratescontainer" data-toggle="modal" onclick="check_reserved_vouchers(); return false">My Reserved Vouchers</a> 
+						</div> 
+					</div> 
+				</div>
+				
+				<br />
+				
+				
+				
+				
+				<div class="text-center">  
+					<!-- REMOVE THIS ENTRY IF YOU HAVE NO PLAN ON HAVING MULTI VENDO --> 
+					<div id="multi_vendo_select_container"> 
+						<br />
+						<br />
+						<select id="multi_vendo_select" class="selectpicker" data-style='btn-default' style='width: 100%' onchange='change_multi_vendo();'>
+							<option value="10.0.0.250">Main</option>
+							<!--
+							<option value="10.0.0.251">Front Gate</option>
+							<option value="10.0.0.252">Tindahan Ni Aling Nena</option>
+							<option value="10.0.0.253">Tambayan Sa Kanto</option>
+							-->
+						</select> 
+					</div>
+					<!-- MULTIVENDO -->
+				</div>
+				
+				
+				<div class="alert table-responsive"> 
+					<table class="table table-borderless">
+						<tbody> 
+						<tr><td align="right" style="width: 50%">IP address: <i class="glyphicon glyphicon-phone"></td><td>$(ip)</td></tr>
+						<tr><td align="right" style="width: 50%">MAC address: <i class="glyphicon glyphicon-cog"></td><td>$(mac)</td></tr> 
+						</tbody>
+					</table>
+				</div> 				
+				
+				<div class="panel-footer text-center" style="background-color: rgba(255,255,255,0.4);"><a href="https://www.facebook.com/GMX.IT.SOLUTION" target="_blank" style="font-size: 80%;" title="Custom by Uly">GMX Portal, Contact Us, Click Here &copy;2022</a></div>
+			</div>  
+		</div>  
+	</div> 
+	
+
+	<div class="hidden_container">
+		<audio id="play_coin_sound">
+			<source src="media/coin.mp3" type="audio/mpeg">
+		</audio> 
+	 
+		<audio loop="loop" id="play_bg_sound">
+			<source src="media/bgm.mp3" type="audio/mpeg">
+		</audio>
+		
+		<button id="play_bg_sound_btn" onclick="play_bg();"></button> 
+	</div>
+
+
+	<!-- Modal -->
+	
+	
+	<div class="modal fade" id="reservedvouchers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content modal_bg">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="myModalLabel">My Reserved Vouchers </h4>
+		  </div>
+		  <div class="modal-body" id="reserved_vouchers_container">
+			 
+		  </div>
+		  <div class="modal-footer" style="text-align: center;">
+			<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button> 
+		  </div>
+		</div>
+	  </div>
+	</div>
+	
+	
+	<div class="modal fade" id="savedvouchers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content modal_bg">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="myModalLabel">My Saved Vouchers </h4>
+		  </div>
+		  <div class="modal-body" id="saved_vouchers_container">
+			 
+		  </div>
+		  <div class="modal-footer" style="text-align: center;">
+			<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button> 
+		  </div>
+		</div>
+	  </div>
+	</div>
+	
+	
+	
+	
+	<div class="modal fade" id="ratescontainer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content modal_bg">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="myModalLabel">WiFi Rates</h4>
+		  </div>
+		  <div class="modal-body">
+			<div class="table-responsive">
+				<table class="table table-borderless">
+					<tbody> 
+						<tr><td align="right" style="width: 50%">P1</td><td id="rate_1"></td></tr>
+						<tr><td align="right" style="width: 50%">P5</td><td id="rate_5"></td></tr>
+						<tr><td align="right" style="width: 50%">P10</td><td id="rate_10"></td></tr> 
+						
+						<!-- comment entries below if you do not want them to appear on potral -->
+						
+						 
+						<tr><td align="right" style="width: 50%">P20</td><td id="rate_20"></td></tr> 
+						<tr><td align="right" style="width: 50%">P50</td><td id="rate_50"></td></tr> 
+
+								
+						
+						<!-- comment -->
+						
+						
+					</tbody>
+				</table>
+			</div>
+		  </div>
+		  <div class="modal-footer" style="text-align: center;">
+			<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button> 
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+
+
+
+	<div class="modal fade" id="insertcoincontainer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content text-center pulse modal_bg"> 
+				<div class="modal-body" id="gauge_content_container">
+				
+					<div id="coinslot_interface_cover" class="coinslot_interface_cover hidden_container">
+						<div class="text-center">
+							<h3>Checking Internet Status!</h3>
+							Please wait... 
+						</div>
+					</div>
+					
+					<div id="coinslot_interface_container" class="hidden_container">
+						<div class="gauge_preview">
+							<br />
+							<div class="GaugeMeter" id="coingaugemeter" data-text_size="0.22" data-total="100" data-showvalue=false data-append="" data-size="200" data-theme="Red-Gold-Green" data-back="RGBa(0,0,0,.1)" data-animate_gauge_colors=false data-animate_text_colors=true data-width="8" data-label="" data-label_color="#000" data-animationstep="0" data-stripe="3"></div>
+						</div>
+						
+						<hr /> 
+						
+						<div class="alert text-center">
+							<div class="row">
+								<div class="col-md-6">
+									<h3 id="timer_cash_accepted">0.00</h3> 
+									<strong>Cash Accepted</strong>
+								</div> 
+								
+								<div class="col-md-6">
+									<div id="session_content_container">
+										<h3 id="equivalent_time_container">0min</h3> 
+										<strong>Time Equivalent</strong>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="text-center hidden_container" id="coinslot_interface_footer_container">
+							<hr />
+							<h4>Please insert just the exact amount of your eload!</h3>
+						</div>
+						
+						<div class="modal-footer" style="text-align: center;">
+							<a id="done_paying_button" href="#" class="btn btn-default btn-lg" onclick="">Done Paying!</a> 
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> 
+	</div> 
+	
+	 
+	
+	
+	
+	<div class="modal fade" id="eloadcontainer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content modal_bg"> 
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">eLoads for Mikrotik</h4>
+				</div>
+
+				<div class="modal-body"> 
+					<div id="eload_phone_information">
+						 
+						
+						<div class="row">
+							<div class="col-md-3"></div>
+							
+							<div class="col-md-6"> 
+								<div class="input-group input-group-lg input_group_mobile">
+								  <input pattern="[0-9]*" type="text" maxlength="11" id="eload_mobile_text" type="text" class="form-control" placeholder="Mobile number" aria-label="Mobile number" aria-describedby="basic-addon2" onkeypress="return numbersonly(this, event)">
+									<span class="input-group-btn">
+									<button class="btn btn-success" type="button" onclick="get_active_eloads();">Get</button>
+								  </span>
+								</div> 
+							</div> 
+							
+							<div class="col-md-3"></div>								
+						</div>  
+						
+						<hr class="input_group_mobile" />
+						
+						<div id="eloads_content_container" class="alert text-center"> 
+							Please type the mobile above that starts with 08 or 09...
+						</div>
+					</div>					 
+				</div>
+				
+				<div class="modal-footer text-center" style="text-align: center;"> 
+					<button type="button" class="btn btn-primary" data-dismiss="modal" id="close_eload_modal_btn">Close</button> 
+				</div>
+			</div>
+		</div> 
+	</div> 
+	
+	
+	
+	
+	
+	<!-- CHRISTMAS EFFECT :: DELETE IF UNWANTED -->
+	<script src="js/snowfall.min.js"></script>
+    <script type="text/javascript">  
+		//will only execute if month is december
+		if (mm == 12)
+			snowFall.snow(document.body);
+	</script>
+	<!-- CHRISTMAS EFFECT :: DELETE IF UNWANTED -->	 
+	
+	<script type="text/javascript"> 		
+		check_settings('0');		
+		
+		get_duration('1');
+		get_duration('5');
+		get_duration('10');
+		
+		<!-- comment entries below if you do not want them to appear on potral -->
+		get_duration('20');
+		get_duration('50');
+		get_duration('100');
+		get_duration('200');
+		get_duration('500');
+		get_duration('1000');
+		<!-- comment -->   
+		
+		 
+		var error_info = $('#error_info').html();
+		
+		if (error_info != '')
+		{
+			var isError_exceeded = String(error_info).includes('exceeded');
+			var isError_invalid = String(error_info).includes('invalid');
+			
+			if (isError_exceeded == true) 
+			{
+				var error_voucher_exceeded = error_info.replace('Uptime limit exceeded for', '').replace('\'', '').replace('\'', '').trim(); 
+				
+				check_saved_vouchers();
+				delete_saved_voucher(error_voucher_exceeded);
+			}
+			
+			if (isError_invalid == true) 
+			{
+				var error_voucher_invalid = error_info.replace('Voucher code', '').replace('is invalid! Please try again...', '').replace('\'', '').replace('\'', '').trim(); 
+				
+				check_saved_vouchers();
+				delete_saved_voucher(error_voucher_invalid);
+			}
+		} 
+		
+		
+		$('.button_eload').addClass('btn btn-danger btn_promos blink');
+		$('.button2').addClass('btn btn-warning btn_promos');
+	</script> 
+	<script type="text/javascript"> document.login.username.focus(); </script>
+</body> 
+</html>

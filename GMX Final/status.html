@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <title>GameWorx</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="css/gaugemeter.css" rel="stylesheet">
+	<link rel="shortcut icon" type="image/png" href="favicon.ico"/>
+    <style type="text/css">
+		html, .modal_bg{ 
+		  background: url(img/embedded.jpg) no-repeat center center fixed; 
+		  -webkit-background-size: cover;
+		  -moz-background-size: cover;
+		  -o-background-size: cover;
+		  background-size: cover;
+		}	
+		
+		.modal_bg, .rates_link, .saved_vouchers_link{
+			color: #fff !important;
+			text-shadow: 1px 1px #000;
+		}
+		
+		body { 
+			background-color: transparent;
+		}
+		
+		.hidden_container{
+			display: none;
+		}
+		.btn-group.special {
+		  display: flex;
+		}
+
+		.special .btn {
+		  flex: 1
+		}
+		
+		.eloads_content_container{
+			height: 400px;
+			overflow-y: scroll;
+		}
+		
+		.shadow {
+			-moz-box-shadow: 0 0 20px rgba(0,0,0,0.5);
+			-webkit-box-shadow: 0 0 20px rgba(0,0,0,0.5);
+			box-shadow: 
+			
+			inset 0 0 50px #fff,      /* inner white */
+			inset 20px 0 80px #f0f,   /* inner left magenta short */
+			inset -20px 0 80px #0ff,  /* inner right cyan short */
+			inset 20px 0 300px #f0f,  /* inner left magenta broad */
+			inset -20px 0 300px #0ff, /* inner right cyan broad */
+			0 0 50px #fff,            /* outer white */
+			-10px 0 80px #f0f,        /* outer left magenta */
+			10px 0 80px #0ff;         /* outer right cyan */
+		} 
+		
+		.pulse {
+		  animation: pulse-animation 1s infinite;
+		}
+
+		@keyframes pulse-animation {
+		  0% {
+			box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+		  }
+		  100% {
+			box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
+		  }
+		}
+		
+		@-webkit-keyframes Pulse {
+			0% { -webkit-box-shadow: 0 0 14px rgba(0,0,0,0.2); }
+			50% { -webkit-box-shadow: 0 0 14px rgba(0,0,0,0.99); }
+			100% { -webkit-box-shadow: 0 0 14px rgba(0,0,0,0.2); }
+		}
+
+		@keyframes Pulse {
+			0% { box-shadow: 0 0 14px rgba(0,0,0,0.2); }
+			50% { box-shadow: 0 0 14px rgba(0,0,0,0.99); }
+			100% { box-shadow: 0 0 14px rgba(0,0,0,0.2); }
+		}
+
+		.pulsating_box { 
+			-webkit-animation: Pulse 3s infinite ease-in-out;
+			-o-animation: Pulse 3s infinite ease-in-out;
+			-ms-animation: Pulse 3s infinite ease-in-out; 
+			-moz-animation: Pulse 3s infinite ease-in-out; 
+			animation: Pulse 3s infinite ease-in-out;
+		}
+		
+		.alert-success {
+			color: #000 !important;
+			background-color: transparent !important;
+			border-color: transparent !important;
+		}
+		
+		.time_left_container h3{
+			font-weight: bold !important;
+		}
+		
+		.table-borderless tr, .table-borderless td, .table-borderless th, .table-responsive {
+			border: 0;
+		}
+		
+		.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {			 
+			border-top: 0px !important;
+		}
+		
+		.time_left_container_glow {
+		  text-align: center;
+		  color: #fff;
+		  animation: glow 1s ease-in-out infinite alternate;
+		}
+
+		@keyframes glow {
+		  from {
+			text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0073e6, 0 0 20px #0073e6;
+		  }
+		  to {
+			text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0073e6, 0 0 40px #0073e6;
+		  }
+		}
+		
+		.panel-default {
+			border-color: transparent;
+		}
+		
+		.panel {
+			border: 0px
+		}
+		.btn-radius{
+			border-radius: 25px;
+		} 
+		
+		button.button.iwifi-buttons {
+			display: none;
+		}
+		
+		.icon{
+			display: none;
+		}
+		
+		.btn_promos{
+			margin: 10px auto;
+			display: block;
+			width: 50%;
+		}
+		
+		.blink {
+		  animation: blinker 2s linear infinite;
+		}
+
+		@keyframes blinker {
+		  50% {
+			opacity: 0;
+		  }
+		}
+    </style>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/iwifi-mtik.js?$(session-time-left)"></script>
+    <script src="js/GaugeMeter.js"></script>
+	<script src="js/bootstrap-select.min.js"></script> 
+	
+    <script language="JavaScript">
+        <!--
+        $(if advert-pending == 'yes')
+            var popup = '';
+        function focusAdvert() {
+            if (window.focus) popup.focus();
+        }
+        function openAdvert() {
+            popup = open('$(link-advert)', 'hotspot_advert', '');
+            setTimeout("focusAdvert()", 1000);
+        }
+        $(endif)
+        function openLogout() {
+            if (window.name != 'hotspot_status') return true;
+            open('$(link-logout)', 'hotspot_logout', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=280,height=250');
+            window.close();
+            return false;
+        }
+        //-->
+		 
+		localStorage.setItem('validity', '');
+    </script>
+</head>
+
+<body role="document"> 
+	<!-- IWIFI SPECIFIC CODE - DO NOT TOUCH OR DELETE -->
+	<div class="hidden_container"><input id="user_mac_text" value="$(mac)"/></div>
+	<div class="hidden_container"><input id="user_ip_text" value="$(ip)"/></div>	
+	<div class="hidden_container"><input id="identity_text" value="$(identity)"/></div>
+	<input type="hidden" value="$(username)" id="voucher_text" />
+	<!-- IWIFI SPECIFIC CODE - DO NOT TOUCH OR DELETE -->
+	
+	$(if session-time-left)
+	<input type="hidden" value="$(session-time-left-secs)" id="session_time_left" />
+	$(else)
+	<input type="hidden" value="0" id="session_time_left" />						
+	$(endif) 
+	
+	<!-- IWIFI SPECIFIC CODE - DO NOT TOUCH OR DELETE -->
+	
+	$(if advert-pending == 'yes')
+	onLoad="openAdvert()"
+	$(endif) 
+
+	<div class="container theme-showcase" role="main"> 
+		<div class="container">  
+			<div id="loginbox" style="margin-top:30px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2"> 
+				<img id="portal_banner" src="img/banner-mtik.png" style="max-width: 100%; height: auto;" />  
+				<br />
+				<br />
+				<div class="panel panel-default shadow" style="background-color: rgba(255,255,255,0.6);">
+					<div class="panel-heading" style="background-color: rgba(255,255,255,0.4);"> 
+						<div class="panel-title text-center">Powered by <span style="font-style: italic;">Game<strong>Worx</strong></span></strong></div>
+					</div>     
+
+					<div class="panel-body" style="padding-bottom: 0;">   
+						$(if error)
+							<div class="alert alert-dismissible alert-danger text-center">
+								  <button type="button" class="close" data-dismiss="alert">&times;</button>
+								  <strong>$(error)</strong>
+							</div>
+						$(endif) 
+						
+						
+						
+						
+						$(if session-time-left)
+							<div class="alert alert-success text-center">
+								<h3 class="time_left_container time_left_container_glow">$(session-time-left)</h3>
+								Remaining Time
+								<br />
+								<br />
+								<h4 id="validity_container">Checking validity...</h4> 
+								Voucher Validity
+							</div>
+							
+						$(else)
+							<div class="alert alert-success text-center"><h3>Unli Time</h3>Remarks</div>
+						$(endif)
+						
+						
+						<div class="">   
+							<div class="hidden_container">  	
+								<form id="pause_timer_form" action="$(link-logout)" name="logout" onSubmit="return openLogout()"> 
+									<input id="pause_timer_button" type="submit" value="Pause Timer" class="btn btn-danger btn-block"> 
+								</form>
+								
+								<button id="insert_coins_button" class="" data-target="#insertcoincontainer" data-toggle="modal" data-backdrop="static" data-keyboard="false"></button>	  
+							</div>  
+							 
+							<div id="iface_btns_container" class="" style="padding: 10px 20px; max-width: 300px; margin: 0 auto;"> 
+								<a id="pause_time_button" class="btn btn-danger btn-block btn-radius" href="#" onclick="press_pause_timer_button(); return false">Pause Timer</a>	 
+								<a id="add_time_button" class="btn btn-success btn-block btn-radius" href="#" onclick="check_coinslot_status_add_time(); return false">Add Time</a>
+								<a id="rates_link" class="btn btn-primary btn-block btn-radius" href="#ratescontainer" data-toggle="modal">View Rates</a> 
+							</div> 
+							
+						</div> 
+					</div>
+					
+					<div class="text-center">  
+						
+						
+						<!-- REMOVE THIS ENTRY IF YOU HAVE NO PLAN ON HAVING MULTI VENDO -->
+						<div id="multi_vendo_select_container"> 
+							<br />
+							<br /> 
+							<select id="multi_vendo_select" class="selectpicker" data-style='btn-default' style='width: 100%' onchange='change_multi_vendo();'>
+								<option value="10.0.0.250">Main</option>
+								<!--
+								<option value="10.0.0.251">Front Gate</option>
+								<option value="10.0.0.252">Tindahan Ni Aling Nena</option>
+								<option value="10.0.0.253">Tambayan Sa Kanto</option>
+								-->
+							</select> 
+						</div>
+						<!-- MULTIVENDO -->
+					</div>
+					
+					
+					<div class="alert table-responsive">  
+						<table class="table table-borderless">
+							<tbody> 
+							<tr><td align="right" style="width: 50%">Voucher Code: <i class="glyphicon glyphicon-qrcode"></td><td><span id="voucher_code_text">$(username)</span></td></tr>
+							<tr><td align="right" style="width: 50%">IP address: <i class="glyphicon glyphicon-phone"></td><td>$(ip)</td></tr>
+							<tr><td align="right" style="width: 50%">MAC address: <i class="glyphicon glyphicon-cog"></td><td>$(mac)</td></tr> 
+							
+							<tr><td align="right">Uploaded: <i class="glyphicon glyphicon-arrow-up"></i> </td><td><span class="upload_bytes_container">$(bytes-in-nice)</span></td></tr>
+							<tr><td align="right">Downloaded: <i class="glyphicon glyphicon-arrow-down"></i> </td><td><span class="download_bytes_container">$(bytes-out-nice)</span></td></tr>
+							$(if session-time-left) 
+							<tr><td align="right">Remaining Time: <i class="glyphicon glyphicon-time"></i> </td><td><span class="time_left_container">$(session-time-left)</span></td></tr>
+							<tr><td align="right">Uptime: <i class="glyphicon glyphicon-hourglass"></i> </td><td><span class="uptime_container">$(uptime)</span></td></tr>
+							$(else)
+							<tr><td align="right">Connected: <i class="glyphicon glyphicon-time"></i> </td><td><span class="uptime_container">$(uptime)</span></td></tr>
+							$(endif)
+							
+							
+							</tbody>
+						</table>
+					</div> 				
+					
+					<div class="panel-footer text-center" style="background-color: rgba(255,255,255,0.4);"><a href="https://www.facebook.com/GMX.IT.SOLUTION" target="_blank" style="font-size: 80%;" title="Custom by Uly">GMX Portal, Contact Us, Click Here &copy;2022</a></div>
+				</div>  
+			</div>  
+		</div>  
+	</div>
+	
+	
+	<div class="hidden_container">
+		<audio id="play_coin_sound">
+			<source src="media/coin.mp3" type="audio/mpeg">
+		</audio> 
+	 
+		<audio loop="loop" id="play_bg_sound">
+			<source src="media/bgm.mp3" type="audio/mpeg">
+		</audio>
+		
+		<button id="play_bg_sound_btn" onclick="play_bg();"></button> 
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="ratescontainer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content modal_bg">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="myModalLabel">WiFi Rates</h4>
+		  </div>
+		  <div class="modal-body">
+			<div class="table-responsive">
+			
+				<table class="table table-borderless">
+					<tbody> 
+						<tr><td align="right" style="width: 50%">P1</td><td id="rate_1"></td></tr>
+						<tr><td align="right" style="width: 50%">P5</td><td id="rate_5"></td></tr>
+						<tr><td align="right" style="width: 50%">P10</td><td id="rate_10"></td></tr> 
+						
+						<!-- comment entries below if you do not want them to appear on potral -->
+						
+						 
+						<tr><td align="right" style="width: 50%">P20</td><td id="rate_20"></td></tr> 
+						<tr><td align="right" style="width: 50%">P50</td><td id="rate_50"></td></tr> 
+
+								
+						
+						<!-- comment -->
+						
+					</tbody>
+				</table>
+			</div>
+		  </div>
+		  <div class="modal-footer" style="text-align: center;">
+			<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button> 
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+
+
+
+	 
+	
+	<div class="modal fade" id="insertcoincontainer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content text-center pulse modal_bg">  
+				<div class="modal-body" id="gauge_content_container"> 
+					
+					<div id="coinslot_interface_cover" class="coinslot_interface_cover hidden_container">
+						<div class="text-center">
+							<h3>Checking Internet Status!</h3>
+							Please wait... 
+						</div>
+					</div>
+					
+					<div id="coinslot_interface_container" class="hidden_container">
+						<div class="gauge_preview">
+							<br />
+							<div class="GaugeMeter" id="coingaugemeter" data-text_size="0.22" data-total="100" data-showvalue=false data-append="" data-size="200" data-theme="Red-Gold-Green" data-back="RGBa(0,0,0,.1)" data-animate_gauge_colors=false data-animate_text_colors=true data-width="8" data-label="" data-label_color="#000" data-animationstep="0" data-stripe="3"></div>
+						</div>
+						
+						<hr /> 
+						
+						<div class="alert text-center">
+							<div class="row">
+								<div class="col-md-6">
+									<h3 id="timer_cash_accepted">0.00</h3> 
+									<strong>Cash Accepted</strong>
+								</div> 
+								
+								<div class="col-md-6">
+									<div id="session_content_container">
+										<h3 id="equivalent_time_container">0min</h3> 
+										<strong>Time Equivalent</strong>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="text-center hidden_container" id="coinslot_interface_footer_container">
+							<hr />
+							<h4>Please insert just the exact amount of your eload!</h3>
+						</div>
+						
+						<div class="modal-footer" style="text-align: center;">
+							<a id="done_paying_button" href="#" class="btn btn-default btn-lg" onclick="">Done Paying!</a> 
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> 
+	</div> 
+	
+	
+	
+	<div class="modal fade" id="eloadcontainer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content modal_bg"> 
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">eLoads for Mikrotik</h4>
+				</div>
+
+				<div class="modal-body"> 
+					<div id="eload_phone_information">
+						 
+						
+						<div class="row">
+							<div class="col-md-3"></div>
+							
+							<div class="col-md-6"> 
+								<div class="input-group input-group-lg input_group_mobile">
+								  <input pattern="[0-9]*" type="text" maxlength="11" id="eload_mobile_text" type="text" class="form-control" placeholder="Mobile number" aria-label="Mobile number" aria-describedby="basic-addon2" onkeypress="return numbersonly(this, event)">
+									<span class="input-group-btn">
+									<button class="btn btn-success" type="button" onclick="get_active_eloads();">Get</button>
+								  </span>
+								</div> 
+							</div> 
+							
+							<div class="col-md-3"></div>								
+						</div>  
+						
+						<hr class="input_group_mobile" />
+						
+						<div id="eloads_content_container" class="alert text-center"> 
+							Please type the mobile above that starts with 08 or 09...
+						</div>
+					</div>					 
+				</div>
+				
+				<div class="modal-footer" style="text-align: center;"> 
+					<button type="button" class="btn btn-primary" data-dismiss="modal" id="close_eload_modal_btn">Close</button> 
+				</div>
+			</div>
+		</div> 
+	</div> 	
+	
+	<!-- CHRISTMAS EFFECT :: DELETE IF UNWANTED -->
+	<script src="js/snowfall.min.js"></script>
+    <script type="text/javascript">  
+		//will only execute if month is december
+		if (mm == 12)
+			snowFall.snow(document.body);
+	</script>
+	<!-- CHRISTMAS EFFECT :: DELETE IF UNWANTED -->	 
+	
+	<script type="text/javascript">   		
+		check_settings('1');
+		
+		get_ticket_validity();
+		
+		get_duration('1');
+		get_duration('5');
+		get_duration('10');
+		
+		<!-- comment entries below if you do not want them to appear on potral -->
+		get_duration('20');
+		get_duration('50');
+		get_duration('100');
+		get_duration('200');
+		get_duration('500');
+		get_duration('1000');
+		<!-- comment -->
+		
+		
+		format_remaining_time();
+		format_uptime();		  
+		
+		setInterval(update_portal_time, 1000); 
+		
+		$('.button_eload').addClass('btn btn-danger btn_promos blink');
+		$('.button2').addClass('btn btn-warning btn_promos');
+	</script>
+</body>
+</html>

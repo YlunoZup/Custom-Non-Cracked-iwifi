@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <title>GameWorx</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/bootstrap.min.css" rel="stylesheet"> 
+	<link rel="shortcut icon" type="image/png" href="favicon.ico"/>
+    <style type="text/css">
+		html { 
+		  background: url(img/embedded.jpg) no-repeat center center fixed; 
+		  -webkit-background-size: cover;
+		  -moz-background-size: cover;
+		  -o-background-size: cover;
+		  background-size: cover;
+		}	
+		
+		body { 
+			background-color: transparent;
+		}
+		
+		.hidden_container{
+			display: none;
+		} 	
+
+		.shadow {
+			-moz-box-shadow: 0 0 20px rgba(0,0,0,0.5);
+			-webkit-box-shadow: 0 0 20px rgba(0,0,0,0.5);
+			box-shadow: 
+			
+			inset 0 0 50px #fff,      /* inner white */
+			inset 20px 0 80px #f0f,   /* inner left magenta short */
+			inset -20px 0 80px #0ff,  /* inner right cyan short */
+			inset 20px 0 300px #f0f,  /* inner left magenta broad */
+			inset -20px 0 300px #0ff, /* inner right cyan broad */
+			0 0 50px #fff,            /* outer white */
+			-10px 0 80px #f0f,        /* outer left magenta */
+			10px 0 80px #0ff;         /* outer right cyan */
+		} 
+		
+		.pulse {
+		  animation: pulse-animation 2s infinite;
+		}
+
+		@keyframes pulse-animation {
+		  0% {
+			box-shadow: inset 0 0 0 0px rgba(0, 0, 0, 0.2);
+		  }
+		  100% {
+			box-shadow: inset 0 0 0 20px rgba(0, 0, 0, 0);
+		  }
+		}
+		
+		@-webkit-keyframes Pulse {
+			0% { -webkit-box-shadow: 0 0 14px rgba(0,0,0,0.2); }
+			50% { -webkit-box-shadow: 0 0 14px rgba(0,0,0,0.99); }
+			100% { -webkit-box-shadow: 0 0 14px rgba(0,0,0,0.2); }
+		}
+
+		@keyframes Pulse {
+			0% { box-shadow: 0 0 14px rgba(0,0,0,0.2); }
+			50% { box-shadow: 0 0 14px rgba(0,0,0,0.99); }
+			100% { box-shadow: 0 0 14px rgba(0,0,0,0.2); }
+		}
+
+		.pulsating_box { 
+			-webkit-animation: Pulse 3s infinite ease-in-out;
+			-o-animation: Pulse 3s infinite ease-in-out;
+			-ms-animation: Pulse 3s infinite ease-in-out; 
+			-moz-animation: Pulse 3s infinite ease-in-out; 
+			animation: Pulse 3s infinite ease-in-out;
+		}
+		
+		.alert-danger {
+			color: #000 !important;
+			background-color: transparent !important;
+			border-color: transparent !important;
+		}
+		
+		.time_left_container h3{
+			font-weight: bold !important;
+		}
+		
+		.table-borderless tr, .table-borderless td, .table-borderless th, .table-responsive {
+			border: 0;
+		}
+		
+		.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {			 
+			border-top: 0px !important;
+		}
+		
+		.panel-default {
+			border-color: transparent;
+		}
+		
+		.panel {
+			border: 0px
+		}
+    </style>
+	
+	<script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/iwifi-mtik.js?$(session-time-left)"></script>
+</head> 
+    <link href="css/bootstrap-theme.css" rel="stylesheet">
+
+<body role="document">
+	<script language="JavaScript"> 
+		function openLogin() {
+			if (window.name != 'hotspot_logout') return true;
+			open('$(link-login)', '_blank', '');
+			window.close();
+			return false;
+		} 
+	</script> 
+
+	<div class="container theme-showcase" role="main"> 
+		<div class="row"> 
+			<div style="margin-top:30px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2"> 
+				<img id="portal_banner" src="img/banner-mtik.png" style="max-width: 100%; height: auto;" />  
+				<br />
+				<br />
+				
+				<div class="panel panel-default shadow" style="background-color: rgba(255,255,255,0.6);">
+					<div class="panel-heading" style="background-color: rgba(255,255,255,0.4);"> 
+						<div class="panel-title text-center">Powered by <span style="font-style: italic;">Game<strong>Worx</strong></span></strong></div>
+					</div>
+					<div class="panel-body"> 
+						$(if session-time-left)
+							<div class="alert text-center"> 
+								<strong>Do not forget to copy your voucher code below<h3>$(username)</h3>You still have <span class="time_left_container">$(session-time-left)</span> time remaining...</strong>
+							</div>
+						$(else)
+							<div class="alert text-center"> 
+								<strong>Thank you for using our hotspot. Come again...</strong>
+							</div>
+						$(endif)
+						
+						
+						
+						
+						<table class="table table-responsive table-borderless">
+							<tbody>
+							<tr><td align="right" style="width: 50%">Voucher Code: <i class="glyphicon glyphicon-user"></td><td>$(username)</td></tr> 
+							<tr><td align="right" style="width: 50%">Uptime: <i class="glyphicon glyphicon-hourglass"></td><td><span class="uptime_container">$(uptime)</span></td></tr>
+							$(if session-time-left)
+							<tr><td align="right" style="width: 50%">Remaining Time: <i class="glyphicon glyphicon-time"></td><td><span class="time_left_container">$(session-time-left)</span></td></tr>
+							$(endif)
+							<tr><td align="right" style="width: 50%">Uploaded: <i class="glyphicon glyphicon-arrow-up"></td><td>$(bytes-in-nice)</td></tr>
+							<tr><td align="right" style="width: 50%">Downloaded: <i class="glyphicon glyphicon-arrow-down"></td><td>$(bytes-out-nice)</td></tr>
+							</tbody>
+						</table>
+
+						<div class="row">
+							<div class="col-md-12 text-center">
+								<form action="$(link-login)" name="login" onSubmit="return openLogin()">
+									<input type="submit" value="Back to Portal" class="btn btn-primary">
+								</form>
+							</div>
+						</div>
+					</div>
+					
+					<div class="panel-footer text-center" style="background-color: rgba(255,255,255,0.4);"><a href="https://www.facebook.com/GMX.IT.SOLUTION" target="_blank" style="font-size: 80%;" title="Custom by Uly">GMX Portal, Contact Us, Click Here &copy;2022</a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- CHRISTMAS EFFECT :: DELETE IF UNWANTED -->
+	<script src="js/snowfall.min.js"></script>
+    <script type="text/javascript">  
+		//will only execute if month is december
+		if (mm == 12)
+			snowFall.snow(document.body);
+	</script>
+	<!-- CHRISTMAS EFFECT :: DELETE IF UNWANTED -->	 
+
+	<script type="text/javascript">  
+		check_settings('0');
+		
+		format_remaining_time();
+		format_uptime(); 
+	</script>
+</body>
+</html>

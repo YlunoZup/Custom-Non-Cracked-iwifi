@@ -1,0 +1,16 @@
+.voucher_code_container {
+    background-color: #fff;
+    margin: 1px;
+    display: inline-table;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.voucher_logo_container img {
+    width: 50px;
+}
+
+h3{
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
